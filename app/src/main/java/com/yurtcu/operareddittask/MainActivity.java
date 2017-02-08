@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -62,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements LoadJSONTask.List
     }
 
     @Override
-    public void onError() {
-        Toast.makeText(this, "Error !", Toast.LENGTH_SHORT).show();
+    public void onError(int errMessageId) {
+        Toast.makeText(this, errMessageId, Toast.LENGTH_LONG).show();
     }
 
     @Override

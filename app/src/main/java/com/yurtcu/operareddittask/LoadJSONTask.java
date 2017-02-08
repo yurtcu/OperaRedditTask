@@ -3,6 +3,7 @@ package com.yurtcu.operareddittask;
 /**
  * Created by Baris on 04.02.2017.
  */
+import android.content.res.Resources;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -19,10 +20,11 @@ import java.net.URL;
 public class LoadJSONTask extends AsyncTask<String, Void, Response> {
     public interface Listener {
         void onLoaded(OutmostData data);
-        void onError();
+        void onError(int errMessageID);
     }
 
     private Listener mListener;
+    private int errMsgId;
 
     public LoadJSONTask(Listener listener) {
         mListener = listener;
@@ -36,13 +38,13 @@ public class LoadJSONTask extends AsyncTask<String, Void, Response> {
             Gson gson = new Gson();
 
             return gson.fromJson(stringResponse, Response.class);
-        } catch (IOException e) {
-            // TODO: Error handling
-            e.printStackTrace();
+        }
+        catch (IOException e) {
+            errMsgId = R.string.network_error;
             return null;
-        } catch (JsonSyntaxException e) {
-            // TODO: Error handling
-            e.printStackTrace();
+        }
+        catch (JsonSyntaxException e) {
+            errMsgId = R.string.reddit_json_error;
             return null;
         }
     }
@@ -51,9 +53,9 @@ public class LoadJSONTask extends AsyncTask<String, Void, Response> {
     protected void onPostExecute(Response response) {
         if (response != null) {
             mListener.onLoaded(response.getData());
-        } else {
-            // TODO: Error handling
-            mListener.onError();
+        }
+        else {
+            mListener.onError(errMsgId);
         }
     }
 

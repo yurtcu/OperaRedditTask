@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/score"
         app:layout_constraintLeft_toLeftOf="@+id/vcenterguideline"
         app:layout_constraintRight_toRightOf="parent"
-        android:gravity="right"
+        android:gravity="end"
          />
 
     <android.support.constraint.Guideline

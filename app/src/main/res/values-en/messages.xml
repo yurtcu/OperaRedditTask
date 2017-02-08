@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="network_error">Network error! Do you have a few bytes of internet? As a loan..</string>
+    <string name="reddit_json_error">Data error! Reddit looks like a bit confused.. Try refresh after a while.</string>
+</resources>
