@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:text="title"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="0dp"
+        android:text="score"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintLeft_toLeftOf="@+id/title"
+        app:layout_constraintRight_toLeftOf="@+id/vcenterguideline"
+        />
+
+    <TextView
+        android:id="@+id/subreddit"
+        android:layout_width="0dp"
+        android:text="subreddit"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/score"
+        app:layout_constraintLeft_toLeftOf="@+id/vcenterguideline"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="right"
+         />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:id="@+id/vcenterguideline"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        android:layout_height="match_parent" />
+
+</android.support.constraint.ConstraintLayout>
