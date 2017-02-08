@@ -2,6 +2,7 @@ package com.yurtcu.operareddittask;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -20,8 +21,10 @@ import com.yurtcu.operareddittask.model.OutmostData;
 import com.yurtcu.operareddittask.model.Child;
 import com.yurtcu.operareddittask.model.RedditInfo;
 
-public class MainActivity extends AppCompatActivity implements LoadJSONTask.Listener, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements LoadJSONTask.Listener,
+        AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private ListView mListView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String URL = "https://www.reddit.com/r/gaming/top.json?limit=50";
 
@@ -39,7 +42,23 @@ public class MainActivity extends AppCompatActivity implements LoadJSONTask.List
 
         mListView = (ListView) findViewById(R.id.list_view);
         mListView.setOnItemClickListener(this);
-        new LoadJSONTask(this).execute(URL);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+                                        new LoadJSONTask(MainActivity.this).execute(URL);
+                                    }
+                                }
+        );
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        new LoadJSONTask(MainActivity.this).execute(URL);
     }
 
     @Override
@@ -58,10 +77,12 @@ public class MainActivity extends AppCompatActivity implements LoadJSONTask.List
         }
 
         loadListView();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onError(int errMessageId) {
+        swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(this, errMessageId, Toast.LENGTH_LONG).show();
     }
 
@@ -72,11 +93,6 @@ public class MainActivity extends AppCompatActivity implements LoadJSONTask.List
 
         intnt.setData(Uri.parse(url));
         startActivity(intnt);
-    }
-
-    //@Override
-    public void OnScroll(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(this, mRedditInfoMapList.get(i).get(KEY_URL), Toast.LENGTH_LONG).show();
     }
 
     private void loadListView() {
